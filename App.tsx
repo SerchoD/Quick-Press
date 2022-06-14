@@ -1,20 +1,40 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import {
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import LevelButton from './src/components/LevelButton/LevelButton';
+import MainGame from './src/components/MainGame/MainGame';
+import { globalStyles } from './src/globalStyles';
 
-export default function App() {
+const App = () => {
+
+  const [isPlaying, setIsPlaying] = useState<boolean>(false)
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView>
+      <StatusBar hidden />
+
+      {!isPlaying ?
+        <View style={styles.container}>
+          <LevelButton number={3} onPress={() => { }} />
+        </View>
+        :
+        <MainGame />}
+    </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    height: '100%',
+    width: '100%',
+    backgroundColor: globalStyles.backgroundColor,
+
+  }
 });
+
+export default App;
