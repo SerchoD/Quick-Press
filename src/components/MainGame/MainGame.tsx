@@ -8,16 +8,20 @@ import {
     View,
 } from 'react-native';
 import { getStoredRecord, resetRecord, storeNewRecord } from '../../asyncStorage/recordStorage';
+import { globalStyles } from '../../globalStyles';
+import { Level } from '../../types/types';
 import AgainButton from '../AgainButton/AgainButton';
 import CustomModal from '../CustomModal/CustomModal';
 import RandomButton from '../RandomButton/RandomButton';
+interface Props {
+    levelProps: Level;
+}
 
-const timerInitialValue = 5
+const MainGame = ({ levelProps }: Props) => {
 
-const MainGame = () => {
 
     const [counter, setCounter] = useState(0)
-    const [secondsLeft, setSecondsLeft] = useState<number>(timerInitialValue);
+    const [secondsLeft, setSecondsLeft] = useState<number>(levelProps.time);
     const [milisecondsLeft, setMilisecondsLeft] = useState(0)
     const [timerToggle, setTimerToggle] = useState(false);
     const [showModal, setShowModal] = useState(false);
@@ -56,7 +60,7 @@ const MainGame = () => {
     const timerStop = () => setTimerToggle(false);
 
     const timerReset = () => {
-        setSecondsLeft(timerInitialValue);
+        setSecondsLeft(levelProps.time);
         setMilisecondsLeft(0);
         setTimerToggle(false);
         setCounter(0)
@@ -111,22 +115,15 @@ const MainGame = () => {
 
     return (
         <SafeAreaView>
-
-
             <CustomModal showModal={showModal}>
                 <View>
                     <View >
-                        <Text style={styles.modalScoreText}>Score: {counter}</Text>
+                        <Text style={styles.modalScoreText}>Your score: {counter}</Text>
                     </View>
 
                     <View>
-                        <Text style={styles.modalScoreText}>Record: {storedRecord}</Text>
+                        <Text style={styles.modalScoreText}>Goal: {levelProps.goal}</Text>
                     </View>
-                    <TouchableOpacity onPress={handleResetRecord}>
-                        <View style={styles.resetRecordBtn}>
-                            <Text style={styles.resetRecordBtnText}>Reset</Text>
-                        </View>
-                    </TouchableOpacity>
                 </View>
 
                 <AgainButton
@@ -146,6 +143,11 @@ const MainGame = () => {
                         {`${secondsLeft < 10 ? '0' : ''}${secondsLeft}:${milisecondsLeft}${milisecondsLeft < 10 ? '0' : ''}`}
                     </Text>
                 </View>
+                {!timerToggle &&
+                    <View>
+                        <Text style={styles.goalText}>Goal: {levelProps.goal}</Text>
+                    </View>
+                }
 
                 <RandomButton
                     counter={counter}
@@ -202,8 +204,13 @@ const styles = StyleSheet.create({
         backgroundColor: 'darkred',
     },
     resetRecordBtnText: {
-        color: 'rgba(200,200,200,1)',
+        color: globalStyles.color,
         fontSize: 10
+    },
+    goalText: {
+        color: globalStyles.color,
+        fontSize: 20,
+        marginTop: -20
     }
 });
 

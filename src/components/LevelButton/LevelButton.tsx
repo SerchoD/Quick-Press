@@ -5,9 +5,10 @@ import { randomMinMax } from '../../utils/math'
 interface Props {
     number: number;
     onPress(): any;
+    key?: any;
 }
 
-const LevelButton = ({ number, onPress }: Props) => {
+const LevelButton = ({ number, onPress, key }: Props) => {
     const windowWidth = Dimensions.get('window').width;
     const windowHeight = Dimensions.get('window').height;
 
@@ -29,14 +30,13 @@ const LevelButton = ({ number, onPress }: Props) => {
     });
 
     return (
-        <View>
+        <View key={key}>
             <TouchableOpacity
                 style={{
                     ...styles.btn,
                     width: btnSize,
                     height: btnSize,
                     elevation: 10,
-                    shadowColor: 'red'
                 }}
                 onPress={onPress}
             >
