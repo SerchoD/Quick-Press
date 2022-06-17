@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Dimensions, Text, TouchableOpacity, View, StyleSheet } from 'react-native'
-import { randomMinMax } from '../../utils/math'
 
 interface Props {
     number: number;
     onPress(): any;
     key?: any;
+    disabled?: boolean;
 }
 
-const LevelButton = ({ number, onPress, key }: Props) => {
+const LevelButton = ({ number, onPress, key, disabled = false }: Props) => {
     const windowWidth = Dimensions.get('window').width;
     const windowHeight = Dimensions.get('window').height;
 
@@ -30,7 +30,7 @@ const LevelButton = ({ number, onPress, key }: Props) => {
     });
 
     return (
-        <View key={key}>
+        <View key={key} style={{ opacity: disabled ? .2 : 1 }}>
             <TouchableOpacity
                 style={{
                     ...styles.btn,
@@ -38,11 +38,12 @@ const LevelButton = ({ number, onPress, key }: Props) => {
                     height: btnSize,
                     elevation: 10,
                 }}
+                disabled={disabled}
                 onPress={onPress}
             >
                 <Text style={styles.btnText}>{number <= 0 ? 'Start!' : number}</Text>
             </TouchableOpacity>
-        </View>
+        </View >
     );
 };
 
@@ -52,6 +53,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(100,100,100,1)',
+        borderWidth: 3,
+        borderColor: 'rgba(200,200,200,1)',
+        borderRadius: 100,
+        elevation: 1
+    },
+    btnDisabled: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'red',
         borderWidth: 3,
         borderColor: 'rgba(200,200,200,1)',
         borderRadius: 100,

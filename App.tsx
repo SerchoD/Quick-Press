@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
+  Alert,
+  BackHandler,
   Button,
   SafeAreaView,
   ScrollView,
@@ -11,9 +13,9 @@ import {
 import MainGame from './src/components/MainGame/MainGame';
 import { globalStyles } from './src/globalStyles';
 import { LEVELS } from './src/constants/Levels';
-import RNFadedScrollView from 'rn-faded-scrollview';
 import { Level } from './src/types/types';
 import LevelButton from './src/components/LevelButton/LevelButton';
+import { getStoredCurrentLevel } from './src/asyncStorage/currentLevelStorage';
 
 const defaultLevel = {
   goal: 0,
@@ -25,17 +27,39 @@ const App = () => {
 
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
   const [levelProps, setLevelProps] = useState<Level>(defaultLevel)
+  const [currentLevel, setCurrentLevel] = useState<number>(1)
 
   const handleLevelPress = (level: any) => {
-    console.log(level)
     setLevelProps(level)
     setIsPlaying(true)
   }
 
+  useEffect(() => {
+    getStoredCurrentLevel()
+      .then(storedCurrentLevel => {
+        if (storedCurrentLevel > 1) {
+          setCurrentLevel(storedCurrentLevel)
+        }
+      });
+  }, [isPlaying])
+
+  useEffect(() => { // Function for Back Button
+    const backAction = () => {
+      setIsPlaying(false)
+      return true
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
   return (
     <SafeAreaView>
       <StatusBar hidden />
-
       {isPlaying ?
         <MainGame levelProps={levelProps} />
         :
@@ -46,7 +70,6 @@ const App = () => {
             <Text style={styles.quickPressText}>Quick Press</Text>
           </View>
 
-
           <ScrollView
             fadingEdgeLength={50}
             showsVerticalScrollIndicator={false}
@@ -55,15 +78,16 @@ const App = () => {
               {LEVELS.map((level: any) => {
                 return (
                   <View key={level?.level} style={styles.lvlBtnContainer}>
-                    <LevelButton number={level?.level} onPress={() => handleLevelPress(level)} />
+                    <LevelButton
+                      number={level?.level}
+                      onPress={() => handleLevelPress(level)}
+                      disabled={currentLevel < level?.level} />
                   </View>
                 )
               })}
             </View>
           </ScrollView>
-
         </View>
-
       }
     </SafeAreaView>
   );

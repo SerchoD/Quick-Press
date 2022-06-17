@@ -50,7 +50,6 @@ const RandomButton = ({ onPress, counter }: any) => {
                     width: btnSize,
                     height: btnSize,
                     elevation: 10,
-                    shadowColor: 'red'
                 }}
                 onPress={onPress}
             >
@@ -69,7 +68,7 @@ const styles = StyleSheet.create({
         borderWidth: 3,
         borderColor: 'rgba(200,200,200,1)',
         borderRadius: 100,
-        elevation: 1
+        elevation: 5
     },
     btnText: {
         color: 'rgba(200,200,200,1)'

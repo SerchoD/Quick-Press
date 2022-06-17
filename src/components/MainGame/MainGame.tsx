@@ -1,33 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import {
     SafeAreaView,
-    StatusBar,
     StyleSheet,
     Text,
-    TouchableOpacity,
     View,
 } from 'react-native';
-import { getStoredRecord, resetRecord, storeNewRecord } from '../../asyncStorage/recordStorage';
+import { getStoredCurrentLevel, storeCurrentLevel } from '../../asyncStorage/currentLevelStorage';
 import { globalStyles } from '../../globalStyles';
 import { Level } from '../../types/types';
-import AgainButton from '../AgainButton/AgainButton';
+import CustomButton from '../CustomButton/CustomButton';
 import CustomModal from '../CustomModal/CustomModal';
 import RandomButton from '../RandomButton/RandomButton';
+import { LEVELS } from '../../constants/Levels'
+
 interface Props {
     levelProps: Level;
 }
 
 const MainGame = ({ levelProps }: Props) => {
 
-
     const [counter, setCounter] = useState(0)
     const [secondsLeft, setSecondsLeft] = useState<number>(levelProps.time);
     const [milisecondsLeft, setMilisecondsLeft] = useState(0)
-    const [timerToggle, setTimerToggle] = useState(false);
+    const [timerIsRunning, setTimerIsRunning] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [securityDisable, setSecurityDisable] = useState(true)
-    const [storedRecord, setStoredRecord] = useState(0)
-    const [recordResetRefresh, setRecordResetRefresh] = useState(true)
+    const [currentLevel, setCurrentLevel] = useState<number>(1)
+    const [currentlevelProps, setCurrentLevelProps] = useState<Level>(levelProps)
 
     const handleCloseModal = () => {
         setShowModal(false)
@@ -35,36 +34,46 @@ const MainGame = ({ levelProps }: Props) => {
         setSecurityDisable(true)
     }
 
+    const handleNextLevel = () => {
+        const findNextLevel = LEVELS.find((level: Level) => level.level === currentlevelProps.level + 1)
+        if (findNextLevel) setCurrentLevelProps(findNextLevel)
+        handleCloseModal()
+    }
+
     const handleBtnPress = () => {
         if (secondsLeft > 0) {
             setCounter(counter + 1)
         }
-        if (timerToggle === false && secondsLeft > 0) {
+        if (timerIsRunning === false && secondsLeft > 0) {
             timerStart()
         }
     }
 
-    const handleResetRecord = () => {
-        resetRecord()
-        setRecordResetRefresh(!recordResetRefresh)
-    }
-
     const timerStart = () => {
-        setTimerToggle(true);
+        setTimerIsRunning(true);
         if (secondsLeft === 30) {
             setSecondsLeft(secondsLeft => secondsLeft - 1)
             setMilisecondsLeft(10)
         }
     }
 
-    const timerStop = () => setTimerToggle(false);
+    const timerStop = () => setTimerIsRunning(false);
 
     const timerReset = () => {
-        setSecondsLeft(levelProps.time);
+        setSecondsLeft(currentlevelProps.time);
         setMilisecondsLeft(0);
-        setTimerToggle(false);
+        setTimerIsRunning(false);
         setCounter(0)
     };
+
+    useEffect(() => {
+        getStoredCurrentLevel()
+            .then(storedCurrentLevel => {
+                if (storedCurrentLevel > 1) {
+                    setCurrentLevel(storedCurrentLevel)
+                }
+            });
+    }, [])
 
     useEffect(() => {
         if (showModal === true) {
@@ -76,7 +85,7 @@ const MainGame = ({ levelProps }: Props) => {
 
     useEffect(() => {
         let interval: any;
-        if (timerToggle) {
+        if (timerIsRunning) {
             interval = setInterval(() => {
                 setMilisecondsLeft(miliseconds => miliseconds - 1)
             }, 100);
@@ -84,10 +93,10 @@ const MainGame = ({ levelProps }: Props) => {
         return () => {
             clearInterval(interval);
         };
-    }, [timerToggle]);
+    }, [timerIsRunning]);
 
     useEffect(() => {
-        if (timerToggle) {
+        if (timerIsRunning) {
             if (milisecondsLeft <= 0) {
                 setSecondsLeft(seconds => seconds - 1);
                 setMilisecondsLeft(10)
@@ -100,52 +109,70 @@ const MainGame = ({ levelProps }: Props) => {
             timerStop()
             setMilisecondsLeft(0)
             setShowModal(true)
-
-            if (counter > storedRecord) {
-                storeNewRecord(counter)
+            if (counter >= currentlevelProps?.goal) {
+                if (currentlevelProps?.level === currentLevel) {
+                    storeCurrentLevel(currentLevel + 1)
+                }
             }
         }
     }, [secondsLeft])
 
-    useEffect(() => {
-        getStoredRecord()
-            .then(record => setStoredRecord(record));
-    }, [timerToggle, recordResetRefresh])
-
-
     return (
         <SafeAreaView>
             <CustomModal showModal={showModal}>
-                <View>
+                <View style={{ display: 'flex', alignItems: 'center' }}>
+                    {counter >= currentlevelProps?.goal &&
+                        <View >
+                            <Text style={styles.modalScoreText}>Congratulations!</Text>
+                        </View>
+                    }
+
                     <View >
                         <Text style={styles.modalScoreText}>Your score: {counter}</Text>
                     </View>
 
                     <View>
-                        <Text style={styles.modalScoreText}>Goal: {levelProps.goal}</Text>
+                        <Text style={styles.modalScoreText}>Goal: {currentlevelProps.goal}</Text>
                     </View>
                 </View>
 
-                <AgainButton
-                    securityDisable={securityDisable}
-                    handleCloseModal={handleCloseModal}
-                />
+                <View>
+                    {counter >= currentlevelProps?.goal &&
+                        <View>
+                            <CustomButton
+                                text='Next Level!'
+                                securityDisable={securityDisable}
+                                handleCloseModal={handleNextLevel}
+                            />
+                        </View>
+                    }
+                    <CustomButton
+                        text='Again!'
+                        securityDisable={securityDisable}
+                        handleCloseModal={handleCloseModal}
+                    />
+                </View>
             </CustomModal>
 
             <View style={styles.container}>
+                {!timerIsRunning &&
+                    <View>
+                        <Text style={styles.levelText}>Level: {currentlevelProps.level}</Text>
+                    </View>
+                }
                 <View>
                     <Text
                         style={{
                             ...styles.clock,
-                            opacity: Number(`${timerToggle ? .1 : .8}`)
+                            opacity: Number(`${timerIsRunning ? .1 : .8}`)
                         }}
                     >
                         {`${secondsLeft < 10 ? '0' : ''}${secondsLeft}:${milisecondsLeft}${milisecondsLeft < 10 ? '0' : ''}`}
                     </Text>
                 </View>
-                {!timerToggle &&
+                {!timerIsRunning &&
                     <View>
-                        <Text style={styles.goalText}>Goal: {levelProps.goal}</Text>
+                        <Text style={styles.goalText}>Goal: {currentlevelProps.goal}</Text>
                     </View>
                 }
 
@@ -165,6 +192,13 @@ const styles = StyleSheet.create({
         height: '100%',
         backgroundColor: 'rgba(55,55,55,1)'
     },
+    levelText: {
+        color: globalStyles.color,
+        fontSize: 20,
+        marginTop: 5,
+        marginBottom: -27,
+        ...globalStyles.textShadow
+    },
     clock: {
         textAlign: 'center',
         display: 'flex',
@@ -173,6 +207,13 @@ const styles = StyleSheet.create({
         color: 'white',
         width: '100%',
         height: 'auto',
+        ...globalStyles.textShadow
+    },
+    goalText: {
+        color: globalStyles.color,
+        fontSize: 20,
+        marginTop: -20,
+        ...globalStyles.textShadow
     },
     modalScoreText: {
         color: 'rgba(200,200,200,1)',
@@ -192,26 +233,6 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         borderRadius: 10
     },
-    resetRecordBtn: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        alignSelf: 'center',
-        marginTop: 10,
-        width: 35,
-        height: 30,
-        borderRadius: 100,
-        backgroundColor: 'darkred',
-    },
-    resetRecordBtnText: {
-        color: globalStyles.color,
-        fontSize: 10
-    },
-    goalText: {
-        color: globalStyles.color,
-        fontSize: 20,
-        marginTop: -20
-    }
 });
 
 export default MainGame

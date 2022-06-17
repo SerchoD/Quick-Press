@@ -4,9 +4,10 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 interface Props {
     securityDisable: boolean;
     handleCloseModal(): any;
+    text: string;
 }
 
-const AgainButton = ({ securityDisable, handleCloseModal }: Props) => {
+const CustomButton = ({ securityDisable, handleCloseModal, text }: Props) => {
     return (
         <TouchableOpacity onPress={handleCloseModal} disabled={securityDisable}>
             <View style={styles.modalAgainBtn}>
@@ -16,7 +17,7 @@ const AgainButton = ({ securityDisable, handleCloseModal }: Props) => {
                     backgroundColor: `${securityDisable ? 'rgba(222,222,222,.2)' : 'rgba(111,111,111,.6)'}`,
                     borderColor: `${securityDisable ? 'rgba(222,222,222,.2)' : 'rgba(222,222,222,.8)'}`,
                 }}>
-                    Again!
+                    {text}
                 </Text>
             </View>
         </TouchableOpacity>
@@ -38,4 +39,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default AgainButton
+export default CustomButton
