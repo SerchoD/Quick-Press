@@ -2,14 +2,15 @@ import React from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
 interface Props {
-    securityDisable: boolean;
-    handleCloseModal(): any;
+    securityDisable?: boolean;
+    handleCloseModal?(): any;
+    onPress?(): any;
     text: string;
 }
 
-const CustomButton = ({ securityDisable, handleCloseModal, text }: Props) => {
+const CustomButton = ({ securityDisable, handleCloseModal, onPress, text }: Props) => {
     return (
-        <TouchableOpacity onPress={handleCloseModal} disabled={securityDisable}>
+        <TouchableOpacity onPress={handleCloseModal || onPress} disabled={securityDisable}>
             <View style={styles.modalAgainBtn}>
                 <Text style={{
                     ...styles.modalAgainText,

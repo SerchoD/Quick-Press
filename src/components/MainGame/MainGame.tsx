@@ -12,6 +12,7 @@ import CustomButton from '../CustomButton/CustomButton';
 import CustomModal from '../CustomModal/CustomModal';
 import RandomButton from '../RandomButton/RandomButton';
 import { LEVELS } from '../../constants/Levels'
+import { LinearGradient } from 'expo-linear-gradient';
 
 interface Props {
     levelProps: Level;
@@ -73,7 +74,7 @@ const MainGame = ({ levelProps }: Props) => {
                     setCurrentLevel(storedCurrentLevel)
                 }
             });
-    }, [])
+    }, [showModal])
 
     useEffect(() => {
         if (showModal === true) {
@@ -119,68 +120,75 @@ const MainGame = ({ levelProps }: Props) => {
 
     return (
         <SafeAreaView>
-            <CustomModal showModal={showModal}>
-                <View style={{ display: 'flex', alignItems: 'center' }}>
-                    {counter >= currentlevelProps?.goal &&
-                        <View >
-                            <Text style={styles.modalScoreText}>Congratulations!</Text>
-                        </View>
-                    }
+            <LinearGradient
+                colors={[`${globalStyles.backgroundColor}`, 'rgba(0,0,0,1)']}
+                start={{ x: 0, y: .1 }}
+            >
+                <CustomModal showModal={showModal}>
+                    <View style={{ display: 'flex', alignItems: 'center' }}>
+                        {counter >= currentlevelProps?.goal &&
+                            <View >
+                                <Text style={styles.modalScoreText}>Congratulations!</Text>
+                            </View>
+                        }
 
-                    <View >
-                        <Text style={styles.modalScoreText}>Your score: {counter}</Text>
+                        <View >
+                            <Text style={styles.modalScoreText}>Your score: {counter}</Text>
+                        </View>
+
+                        <View>
+                            <Text style={styles.modalScoreText}>Goal: {currentlevelProps.goal}</Text>
+                        </View>
                     </View>
 
                     <View>
-                        <Text style={styles.modalScoreText}>Goal: {currentlevelProps.goal}</Text>
+                        {counter >= currentlevelProps?.goal &&
+                            <View>
+                                <CustomButton
+                                    text='Next Level!'
+                                    securityDisable={securityDisable}
+                                    handleCloseModal={handleNextLevel}
+                                />
+                            </View>
+                        }
+                        <CustomButton
+                            text='Again!'
+                            securityDisable={securityDisable}
+                            handleCloseModal={handleCloseModal}
+                        />
                     </View>
-                </View>
+                </CustomModal>
 
-                <View>
-                    {counter >= currentlevelProps?.goal &&
+
+
+                <View style={styles.container}>
+                    {!timerIsRunning &&
                         <View>
-                            <CustomButton
-                                text='Next Level!'
-                                securityDisable={securityDisable}
-                                handleCloseModal={handleNextLevel}
-                            />
+                            <Text style={styles.levelText}>Level: {currentlevelProps.level}</Text>
                         </View>
                     }
-                    <CustomButton
-                        text='Again!'
-                        securityDisable={securityDisable}
-                        handleCloseModal={handleCloseModal}
+                    <View>
+                        <Text
+                            style={{
+                                ...styles.clock,
+                                opacity: Number(`${timerIsRunning ? .1 : .8}`)
+                            }}
+                        >
+                            {`${secondsLeft < 10 ? '0' : ''}${secondsLeft}:${milisecondsLeft}${milisecondsLeft < 10 ? '0' : ''}`}
+                        </Text>
+                    </View>
+                    {!timerIsRunning &&
+                        <View>
+                            <Text style={styles.goalText}>Goal: {currentlevelProps.goal}</Text>
+                        </View>
+                    }
+
+                    <RandomButton
+                        counter={counter}
+                        onPress={handleBtnPress}
                     />
                 </View>
-            </CustomModal>
-
-            <View style={styles.container}>
-                {!timerIsRunning &&
-                    <View>
-                        <Text style={styles.levelText}>Level: {currentlevelProps.level}</Text>
-                    </View>
-                }
-                <View>
-                    <Text
-                        style={{
-                            ...styles.clock,
-                            opacity: Number(`${timerIsRunning ? .1 : .8}`)
-                        }}
-                    >
-                        {`${secondsLeft < 10 ? '0' : ''}${secondsLeft}:${milisecondsLeft}${milisecondsLeft < 10 ? '0' : ''}`}
-                    </Text>
-                </View>
-                {!timerIsRunning &&
-                    <View>
-                        <Text style={styles.goalText}>Goal: {currentlevelProps.goal}</Text>
-                    </View>
-                }
-
-                <RandomButton
-                    counter={counter}
-                    onPress={handleBtnPress}
-                />
-            </View>
+            </LinearGradient>
         </SafeAreaView>
     )
 }
@@ -190,7 +198,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         height: '100%',
-        backgroundColor: 'rgba(55,55,55,1)'
+        // backgroundColor: globalStyles.backgroundColor
     },
     levelText: {
         color: globalStyles.color,

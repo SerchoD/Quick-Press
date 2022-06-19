@@ -1,5 +1,11 @@
-import React, { Children } from 'react'
-import { Button, Dimensions, Modal, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { StatusBar } from 'expo-status-bar';
+import React from 'react'
+import {
+    Dimensions,
+    Modal,
+    StyleSheet,
+    View
+} from 'react-native'
 
 interface Props {
     children: any;
@@ -11,6 +17,7 @@ const CustomModal = ({ children, showModal, }: Props) => {
 
     return (
         <>
+            <StatusBar hidden />
             <Modal
                 visible={showModal}
                 transparent={true}
