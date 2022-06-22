@@ -13,7 +13,6 @@ import {
   View,
 } from 'react-native';
 import MainGame from './src/components/MainGame/MainGame';
-import { globalStyles } from './src/globalStyles';
 import { LEVELS } from './src/constants/Levels';
 import { Level } from './src/types/types';
 import LevelButton from './src/components/LevelButton/LevelButton';
@@ -22,6 +21,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import CustomModal from './src/components/CustomModal/CustomModal';
 import CustomButton from './src/components/CustomButton/CustomButton';
+import StylesContext from './src/context/StylesContext';
+import { globalStyles } from './src/globalStyles';
 
 const defaultLevel = {
   goal: 0,
@@ -29,13 +30,24 @@ const defaultLevel = {
   level: 0
 }
 
+const defaultGlobalStyles = {
+  backgroundColor: 'rgba(55,55,55,1)',
+  color: 'rgba(200,200,200,1)',
+  textShadow: {
+    textShadowColor: 'rgba(0, 0, 0, .8)',
+    textShadowOffset: { width: 0, height: 5 },
+    textShadowRadius: 10,
+  },
+};
+
 const App = () => {
 
   const [showMenuModal, setShowMenuModal] = useState<boolean>(false)
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
   const [levelProps, setLevelProps] = useState<Level>(defaultLevel)
   const [currentLevel, setCurrentLevel] = useState<number>(1)
-
+  const [globalStyles, setGlobalStyles] = useState<any>(defaultGlobalStyles)
+  console.log(globalStyles)
   const handleLevelPress = (level: any) => {
     setLevelProps(level)
     setIsPlaying(true)
@@ -65,53 +77,55 @@ const App = () => {
   }, []);
 
   return (
-    <SafeAreaView>
-      <StatusBar hidden />
-      {isPlaying ?
-        <MainGame levelProps={levelProps} />
-        :
-        <View style={styles.container}>
+    <StylesContext.Provider value={globalStyles}>
+      <SafeAreaView>
+        <StatusBar hidden />
+        {isPlaying ?
+          <MainGame levelProps={levelProps} />
+          :
+          <View style={styles.container}>
 
-          <View style={styles.menuIcon}>
-            <TouchableOpacity onPress={() => setShowMenuModal(true)}>
-              <Ionicons name="menu" size={35} color={globalStyles.color} />
-            </TouchableOpacity>
-          </View>
+            <View style={styles.menuIcon}>
+              <TouchableOpacity onPress={() => setShowMenuModal(true)}>
+                <Ionicons name="menu" size={35} color={globalStyles.color} />
+              </TouchableOpacity>
+            </View>
 
-          <View style={styles.titleContainer}>
-            <Text style={styles.serchoText}>Sercho's</Text>
-            <Text style={styles.quickPressText}>Quick Press</Text>
-          </View>
+            <View style={styles.titleContainer}>
+              <Text style={styles.serchoText}>Sercho's</Text>
+              <Text style={styles.quickPressText}>Quick Press</Text>
+            </View>
 
-          <LinearGradient
-            colors={['rgba(0,0,0,0)', 'rgba(0,0,0,1)']}
-            start={{ x: 0, y: .1 }}
-          >
-            <ScrollView
-              fadingEdgeLength={50}
-              showsVerticalScrollIndicator={false}
+            <LinearGradient
+              colors={['rgba(0,0,0,0)', 'rgba(0,0,0,1)']}
+              start={{ x: 0, y: .1 }}
             >
-              <View style={styles.levelsContainer}>
-                {LEVELS.map((level: any) => {
-                  return (
-                    <View key={level?.level} style={styles.lvlBtnContainer}>
-                      <LevelButton
-                        number={level?.level}
-                        onPress={() => handleLevelPress(level)}
-                        disabled={currentLevel < level?.level} />
-                    </View>
-                  )
-                })}
-              </View>
-            </ScrollView>
-          </LinearGradient>
+              <ScrollView
+                fadingEdgeLength={50}
+                showsVerticalScrollIndicator={false}
+              >
+                <View style={styles.levelsContainer}>
+                  {LEVELS.map((level: any) => {
+                    return (
+                      <View key={level?.level} style={styles.lvlBtnContainer}>
+                        <LevelButton
+                          number={level?.level}
+                          onPress={() => handleLevelPress(level)}
+                          disabled={currentLevel < level?.level} />
+                      </View>
+                    )
+                  })}
+                </View>
+              </ScrollView>
+            </LinearGradient>
 
-          <CustomModal showModal={showMenuModal}>
-            <CustomButton text='X' onPress={() => setShowMenuModal(false)} />
-          </CustomModal>
-        </View>
-      }
-    </SafeAreaView>
+            <CustomModal showModal={showMenuModal}>
+              <CustomButton text='X' onPress={() => setShowMenuModal(false)} />
+            </CustomModal>
+          </View>
+        }
+      </SafeAreaView>
+    </StylesContext.Provider>
   );
 };
 
@@ -128,7 +142,6 @@ const styles = StyleSheet.create({
     right: 10,
     opacity: .5
   },
-
   titleContainer: {
     display: 'flex',
     alignItems: 'center',
@@ -155,6 +168,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexWrap: 'wrap',
     margin: 0,
+    marginBottom: '30%'
   },
   lvlBtnContainer: {
     margin: '2%'
