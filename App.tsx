@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Alert,
   BackHandler,
-  Button,
   SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
-  TouchableOpacityBase,
   View,
 } from 'react-native';
 import MainGame from './src/components/MainGame/MainGame';
@@ -21,7 +18,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import CustomModal from './src/components/CustomModal/CustomModal';
 import CustomButton from './src/components/CustomButton/CustomButton';
-import StylesContext from './src/context/StylesContext';
 import { globalStyles } from './src/globalStyles';
 
 const defaultLevel = {
@@ -77,55 +73,53 @@ const App = () => {
   }, []);
 
   return (
-    <StylesContext.Provider value={globalStyles}>
-      <SafeAreaView>
-        <StatusBar hidden />
-        {isPlaying ?
-          <MainGame levelProps={levelProps} />
-          :
-          <View style={styles.container}>
+    <SafeAreaView>
+      <StatusBar hidden />
+      {isPlaying ?
+        <MainGame levelProps={levelProps} />
+        :
+        <View style={styles.container}>
 
-            <View style={styles.menuIcon}>
-              <TouchableOpacity onPress={() => setShowMenuModal(true)}>
-                <Ionicons name="menu" size={35} color={globalStyles.color} />
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.titleContainer}>
-              <Text style={styles.serchoText}>Sercho's</Text>
-              <Text style={styles.quickPressText}>Quick Press</Text>
-            </View>
-
-            <LinearGradient
-              colors={['rgba(0,0,0,0)', 'rgba(0,0,0,1)']}
-              start={{ x: 0, y: .1 }}
-            >
-              <ScrollView
-                fadingEdgeLength={50}
-                showsVerticalScrollIndicator={false}
-              >
-                <View style={styles.levelsContainer}>
-                  {LEVELS.map((level: any) => {
-                    return (
-                      <View key={level?.level} style={styles.lvlBtnContainer}>
-                        <LevelButton
-                          number={level?.level}
-                          onPress={() => handleLevelPress(level)}
-                          disabled={currentLevel < level?.level} />
-                      </View>
-                    )
-                  })}
-                </View>
-              </ScrollView>
-            </LinearGradient>
-
-            <CustomModal showModal={showMenuModal}>
-              <CustomButton text='X' onPress={() => setShowMenuModal(false)} />
-            </CustomModal>
+          <View style={styles.menuIcon}>
+            <TouchableOpacity onPress={() => setShowMenuModal(true)}>
+              <Ionicons name="menu" size={35} color={globalStyles.color} />
+            </TouchableOpacity>
           </View>
-        }
-      </SafeAreaView>
-    </StylesContext.Provider>
+
+          <View style={styles.titleContainer}>
+            <Text style={styles.serchoText}>Sercho's</Text>
+            <Text style={styles.quickPressText}>Quick Press</Text>
+          </View>
+
+          <LinearGradient
+            colors={['rgba(0,0,0,0)', 'rgba(0,0,0,1)']}
+            start={{ x: 0, y: .1 }}
+          >
+            <ScrollView
+              fadingEdgeLength={50}
+              showsVerticalScrollIndicator={false}
+            >
+              <View style={styles.levelsContainer}>
+                {LEVELS.map((level: any) => {
+                  return (
+                    <View key={level?.level} style={styles.lvlBtnContainer}>
+                      <LevelButton
+                        number={level?.level}
+                        onPress={() => handleLevelPress(level)}
+                        disabled={currentLevel < level?.level} />
+                    </View>
+                  )
+                })}
+              </View>
+            </ScrollView>
+          </LinearGradient>
+
+          <CustomModal showModal={showMenuModal}>
+            <CustomButton text='X' onPress={() => setShowMenuModal(false)} />
+          </CustomModal>
+        </View>
+      }
+    </SafeAreaView>
   );
 };
 
