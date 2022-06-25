@@ -19,6 +19,8 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import CustomModal from './src/components/CustomModal/CustomModal';
 import CustomButton from './src/components/CustomButton/CustomButton';
 import { globalStyles } from './src/globalStyles';
+import { Provider } from "react-redux";
+import { store } from './src/redux'
 
 const defaultLevel = {
   goal: 0,
@@ -43,7 +45,8 @@ const App = () => {
   const [levelProps, setLevelProps] = useState<Level>(defaultLevel)
   const [currentLevel, setCurrentLevel] = useState<number>(1)
   const [globalStyles, setGlobalStyles] = useState<any>(defaultGlobalStyles)
-  console.log(globalStyles)
+
+
   const handleLevelPress = (level: any) => {
     setLevelProps(level)
     setIsPlaying(true)
@@ -73,53 +76,55 @@ const App = () => {
   }, []);
 
   return (
-    <SafeAreaView>
-      <StatusBar hidden />
-      {isPlaying ?
-        <MainGame levelProps={levelProps} />
-        :
-        <View style={styles.container}>
+    <Provider store={store}>
+      <SafeAreaView>
+        <StatusBar hidden />
+        {isPlaying ?
+          <MainGame levelProps={levelProps} />
+          :
+          <View style={styles.container}>
 
-          <View style={styles.menuIcon}>
-            <TouchableOpacity onPress={() => setShowMenuModal(true)}>
-              <Ionicons name="menu" size={35} color={globalStyles.color} />
-            </TouchableOpacity>
-          </View>
+            <View style={styles.menuIcon}>
+              <TouchableOpacity onPress={() => setShowMenuModal(true)}>
+                <Ionicons name="menu" size={35} color={globalStyles.color} />
+              </TouchableOpacity>
+            </View>
 
-          <View style={styles.titleContainer}>
-            <Text style={styles.serchoText}>Sercho's</Text>
-            <Text style={styles.quickPressText}>Quick Press</Text>
-          </View>
+            <View style={styles.titleContainer}>
+              <Text style={styles.serchoText}>Sercho's</Text>
+              <Text style={styles.quickPressText}>Quick Press</Text>
+            </View>
 
-          <LinearGradient
-            colors={['rgba(0,0,0,0)', 'rgba(0,0,0,1)']}
-            start={{ x: 0, y: .1 }}
-          >
-            <ScrollView
-              fadingEdgeLength={50}
-              showsVerticalScrollIndicator={false}
+            <LinearGradient
+              colors={['rgba(0,0,0,0)', 'rgba(0,0,0,1)']}
+              start={{ x: 0, y: .1 }}
             >
-              <View style={styles.levelsContainer}>
-                {LEVELS.map((level: any) => {
-                  return (
-                    <View key={level?.level} style={styles.lvlBtnContainer}>
-                      <LevelButton
-                        number={level?.level}
-                        onPress={() => handleLevelPress(level)}
-                        disabled={currentLevel < level?.level} />
-                    </View>
-                  )
-                })}
-              </View>
-            </ScrollView>
-          </LinearGradient>
+              <ScrollView
+                fadingEdgeLength={50}
+                showsVerticalScrollIndicator={false}
+              >
+                <View style={styles.levelsContainer}>
+                  {LEVELS.map((level: any) => {
+                    return (
+                      <View key={level?.level} style={styles.lvlBtnContainer}>
+                        <LevelButton
+                          number={level?.level}
+                          onPress={() => handleLevelPress(level)}
+                          disabled={currentLevel < level?.level} />
+                      </View>
+                    )
+                  })}
+                </View>
+              </ScrollView>
+            </LinearGradient>
 
-          <CustomModal showModal={showMenuModal}>
-            <CustomButton text='X' onPress={() => setShowMenuModal(false)} />
-          </CustomModal>
-        </View>
-      }
-    </SafeAreaView>
+            <CustomModal showModal={showMenuModal}>
+              <CustomButton text='X' onPress={() => setShowMenuModal(false)} />
+            </CustomModal>
+          </View>
+        }
+      </SafeAreaView>
+    </Provider>
   );
 };
 

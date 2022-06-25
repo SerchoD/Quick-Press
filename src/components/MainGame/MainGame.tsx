@@ -13,12 +13,15 @@ import CustomModal from '../CustomModal/CustomModal';
 import RandomButton from '../RandomButton/RandomButton';
 import { LEVELS } from '../../constants/Levels'
 import { LinearGradient } from 'expo-linear-gradient';
+import { useDispatch } from 'react-redux';
+import { newRandomThemeAction } from '../../redux/actions/themeStyles/themeStyles';
 
 interface Props {
     levelProps: Level;
 }
 
 const MainGame = ({ levelProps }: Props) => {
+    const dispatch = useDispatch()
 
     const [counter, setCounter] = useState(0)
     const [secondsLeft, setSecondsLeft] = useState<number>(levelProps.time);
@@ -66,6 +69,16 @@ const MainGame = ({ levelProps }: Props) => {
         setTimerIsRunning(false);
         setCounter(0)
     };
+
+    // =========================================================================
+
+    useEffect(() => {
+        console.log('useEffect del disptch');
+        dispatch(newRandomThemeAction())
+
+    }, [])
+
+    // =========================================================================
 
     useEffect(() => {
         getStoredCurrentLevel()
