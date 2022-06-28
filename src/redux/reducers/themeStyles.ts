@@ -1,26 +1,31 @@
-import { AnyAction } from 'redux';
 import { ThemeStylesDispatchTypes } from '../actions/themeStyles/types';
 import { ThemeStylesTypes } from '../types/themeStyles';
 
 export interface ThemeStyle {
-	themeNumber: number;
+	backgroundColor1: string;
+	backgroundColor2: string;
+	roundBtnBorderColor: string;
+	textColor: string;
 }
 
 const initialState: ThemeStyle = {
-	themeNumber: 1,
+	// backgroundColor1: 'rgba(55,55,55,1)',
+	backgroundColor1: 'rgba(55,55,55,1)',
+	backgroundColor2: 'rgba(111,111,111,.6)',
+	roundBtnBorderColor: 'rgba(222,222,222,.8)',
+	textColor: 'rgba(200,200,200,1)',
+	// textColor: 'blue',
 };
 
 export default function ThemeReducer(
 	state: ThemeStyle = initialState,
 	{ payload, type }: ThemeStylesDispatchTypes
 ) {
-	console.log('action en el reducer: ', payload);
-
 	switch (type) {
 		case ThemeStylesTypes.RANDOM_STYLES:
-			return { ...state };
+			return { ...payload };
 		case ThemeStylesTypes.DEFAULT_STYLES:
-			return { ...state };
+			return { ...initialState };
 
 		default:
 			return state;

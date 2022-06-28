@@ -13,24 +13,25 @@ import CustomModal from '../CustomModal/CustomModal';
 import RandomButton from '../RandomButton/RandomButton';
 import { LEVELS } from '../../constants/Levels'
 import { LinearGradient } from 'expo-linear-gradient';
-import { useDispatch } from 'react-redux';
-import { newRandomThemeAction } from '../../redux/actions/themeStyles/themeStyles';
+import { useSelector } from 'react-redux';
+import { RootStore } from '../../redux';
 
 interface Props {
     levelProps: Level;
 }
 
 const MainGame = ({ levelProps }: Props) => {
-    const dispatch = useDispatch()
+    const themeStyles: any = useSelector<RootStore>(store => store.themeStyle)
 
+    const [currentlevelProps, setCurrentLevelProps] = useState<Level>(levelProps)
+    const [s, setS] = useState<any>(styles(themeStyles))
     const [counter, setCounter] = useState(0)
-    const [secondsLeft, setSecondsLeft] = useState<number>(levelProps.time);
     const [milisecondsLeft, setMilisecondsLeft] = useState(0)
     const [timerIsRunning, setTimerIsRunning] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [securityDisable, setSecurityDisable] = useState(true)
     const [currentLevel, setCurrentLevel] = useState<number>(1)
-    const [currentlevelProps, setCurrentLevelProps] = useState<Level>(levelProps)
+    const [secondsLeft, setSecondsLeft] = useState<number>(levelProps.time);
 
     const handleCloseModal = () => {
         setShowModal(false)
@@ -70,15 +71,14 @@ const MainGame = ({ levelProps }: Props) => {
         setCounter(0)
     };
 
-    // =========================================================================
+    useEffect(() => {
+        setSecondsLeft(currentlevelProps.time)
+    }, [showModal])
+
 
     useEffect(() => {
-        console.log('useEffect del disptch');
-        dispatch(newRandomThemeAction())
-
+        setS(styles(themeStyles))
     }, [])
-
-    // =========================================================================
 
     useEffect(() => {
         getStoredCurrentLevel()
@@ -134,23 +134,23 @@ const MainGame = ({ levelProps }: Props) => {
     return (
         <SafeAreaView>
             <LinearGradient
-                colors={[`${globalStyles.backgroundColor}`, 'rgba(0,0,0,1)']}
+                colors={[`${themeStyles.backgroundColor1}`, 'rgba(0,0,0,1)']}
                 start={{ x: 0, y: .1 }}
             >
                 <CustomModal showModal={showModal}>
                     <View style={{ display: 'flex', alignItems: 'center' }}>
                         {counter >= currentlevelProps?.goal &&
                             <View >
-                                <Text style={styles.modalScoreText}>Congratulations!</Text>
+                                <Text style={s.modalScoreText}>Congratulations!</Text>
                             </View>
                         }
 
                         <View >
-                            <Text style={styles.modalScoreText}>Your score: {counter}</Text>
+                            <Text style={s.modalScoreText}>Your score: {counter}</Text>
                         </View>
 
                         <View>
-                            <Text style={styles.modalScoreText}>Goal: {currentlevelProps.goal}</Text>
+                            <Text style={s.modalScoreText}>Goal: {currentlevelProps.goal}</Text>
                         </View>
                     </View>
 
@@ -172,18 +172,16 @@ const MainGame = ({ levelProps }: Props) => {
                     </View>
                 </CustomModal>
 
-
-
-                <View style={styles.container}>
+                <View style={s.container}>
                     {!timerIsRunning &&
                         <View>
-                            <Text style={styles.levelText}>Level: {currentlevelProps.level}</Text>
+                            <Text style={s.levelText}>Level: {currentlevelProps.level}</Text>
                         </View>
                     }
                     <View>
                         <Text
                             style={{
-                                ...styles.clock,
+                                ...s.clock,
                                 opacity: Number(`${timerIsRunning ? .1 : .8}`)
                             }}
                         >
@@ -192,7 +190,7 @@ const MainGame = ({ levelProps }: Props) => {
                     </View>
                     {!timerIsRunning &&
                         <View>
-                            <Text style={styles.goalText}>Goal: {currentlevelProps.goal}</Text>
+                            <Text style={s.goalText}>Goal: {currentlevelProps.goal}</Text>
                         </View>
                     }
 
@@ -205,7 +203,8 @@ const MainGame = ({ levelProps }: Props) => {
         </SafeAreaView>
     )
 }
-const styles = StyleSheet.create({
+
+const styles = (themeStyles: any) => StyleSheet.create({
     container: {
         display: 'flex',
         justifyContent: 'flex-start',
@@ -214,7 +213,7 @@ const styles = StyleSheet.create({
         // backgroundColor: globalStyles.backgroundColor
     },
     levelText: {
-        color: globalStyles.color,
+        color: themeStyles.textColor,
         fontSize: 20,
         marginTop: 5,
         marginBottom: -27,
@@ -225,19 +224,19 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         fontSize: 100,
-        color: 'white',
+        color: themeStyles.textColor,
         width: '100%',
         height: 'auto',
         ...globalStyles.textShadow
     },
     goalText: {
-        color: globalStyles.color,
+        color: themeStyles.textColor,
         fontSize: 20,
         marginTop: -20,
         ...globalStyles.textShadow
     },
     modalScoreText: {
-        color: 'rgba(200,200,200,1)',
+        color: themeStyles.textColor,
         fontSize: 30,
         fontWeight: '700',
         marginTop: 20

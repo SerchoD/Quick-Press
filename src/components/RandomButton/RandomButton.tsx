@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { Dimensions, Text, TouchableOpacity, View, StyleSheet } from 'react-native'
+import { useSelector } from 'react-redux';
+import { RootStore } from '../../redux';
 import { randomMinMax } from '../../utils/math'
 
 const RandomButton = ({ onPress, counter }: any) => {
     const windowWidth = Dimensions.get('window').width;
     const windowHeight = Dimensions.get('window').height;
+    const themeStyles = useSelector<RootStore>(store => store.themeStyle)
+
+    const s = styles(themeStyles)
 
     const [deviceWidth, setDeviceWidth] = useState<number>(windowWidth);
     const [deviceHeight, setDeviceHeight] = useState<number>(windowHeight);
@@ -46,32 +51,32 @@ const RandomButton = ({ onPress, counter }: any) => {
         >
             <TouchableOpacity
                 style={{
-                    ...styles.btn,
+                    ...s.btn,
                     width: btnSize,
                     height: btnSize,
                     elevation: 10,
                 }}
                 onPress={onPress}
             >
-                <Text style={styles.btnText}>{counter <= 0 ? 'Start!' : counter}</Text>
+                <Text style={s.btnText}>{counter <= 0 ? 'Start!' : counter}</Text>
             </TouchableOpacity>
         </View>
     );
 };
 
-const styles = StyleSheet.create({
+const styles = (themeStyles: any) => StyleSheet.create({
     btn: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(100,100,100,1)',
+        backgroundColor: themeStyles.backgroundColor2,
         borderWidth: 3,
-        borderColor: 'rgba(200,200,200,1)',
+        borderColor: themeStyles.roundBtnBorderColor,
         borderRadius: 100,
         elevation: 5
     },
     btnText: {
-        color: 'rgba(200,200,200,1)'
+        color: themeStyles.textColor
     }
 
 });

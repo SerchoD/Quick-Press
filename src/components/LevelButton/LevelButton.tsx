@@ -1,5 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Dimensions, Text, TouchableOpacity, View, StyleSheet } from 'react-native'
+import { useSelector } from 'react-redux';
+import { globalStyles } from '../../globalStyles';
+import { RootStore } from '../../redux';
 
 interface Props {
     number: number;
@@ -9,6 +12,10 @@ interface Props {
 }
 
 const LevelButton = ({ number, onPress, key, disabled = false }: Props) => {
+    const themeStyles = useSelector<RootStore>(store => store.themeStyle)
+
+    const s = styles(themeStyles)
+
     const windowWidth = Dimensions.get('window').width;
     const windowHeight = Dimensions.get('window').height;
 
@@ -30,46 +37,36 @@ const LevelButton = ({ number, onPress, key, disabled = false }: Props) => {
     });
 
     return (
-        <View key={key} style={{ opacity: disabled ? .2 : 1 }}>
+        <View key={key} style={{ opacity: disabled ? .5 : 1 }}>
             <TouchableOpacity
                 style={{
-                    ...styles.btn,
+                    ...s.btn,
                     width: btnSize,
                     height: btnSize,
-                    elevation: 10,
                 }}
                 disabled={disabled}
                 onPress={onPress}
             >
-                <Text style={styles.btnText}>{number <= 0 ? 'Start!' : number}</Text>
+                <Text style={s.btnText}>{number <= 0 ? 'Start!' : number}</Text>
             </TouchableOpacity>
         </View >
     );
 };
 
-const styles = StyleSheet.create({
+const styles = (themeStyles: any) => StyleSheet.create({
     btn: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(100,100,100,1)',
+        backgroundColor: themeStyles.backgroundColor2,
         borderWidth: 3,
-        borderColor: 'rgba(200,200,200,1)',
+        borderColor: themeStyles.roundBtnBorderColor,
         borderRadius: 100,
-        elevation: 1
-    },
-    btnDisabled: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'red',
-        borderWidth: 3,
-        borderColor: 'rgba(200,200,200,1)',
-        borderRadius: 100,
-        elevation: 1
+        elevation: 20
     },
     btnText: {
-        color: 'rgba(200,200,200,1)'
+        color: themeStyles.textColor,
+        ...globalStyles.numbersTextShadow
     }
 
 });

@@ -19,246 +19,246 @@ export const LEVELS: Level[] = [
 	{
 		level: 4,
 		time: 10,
-		goal: 14,
+		goal: 13,
 	},
 	{
 		level: 5,
 		time: 10,
-		goal: 16,
+		goal: 14,
 	},
 	// ---- 1 - 5
 	{
 		level: 6,
 		time: 15,
-		goal: 19,
+		goal: 18,
 	},
 	{
 		level: 7,
 		time: 15,
-		goal: 20,
+		goal: 19,
 	},
 	{
 		level: 8,
 		time: 15,
-		goal: 21,
+		goal: 20,
 	},
 	{
 		level: 9,
 		time: 15,
-		goal: 22,
+		goal: 21,
 	},
 	{
 		level: 10,
 		time: 15,
-		goal: 24,
+		goal: 22,
 	},
 	// ---- 6 - 10
 	{
 		level: 11,
 		time: 20,
-		goal: 29,
+		goal: 30,
 	},
 	{
 		level: 12,
 		time: 20,
-		goal: 32,
+		goal: 31,
 	},
 	{
 		level: 13,
 		time: 20,
-		goal: 33,
+		goal: 32,
 	},
 	{
 		level: 14,
 		time: 20,
-		goal: 34,
+		goal: 33,
 	},
 	{
 		level: 15,
 		time: 20,
-		goal: 35,
+		goal: 34,
 	},
 	// ---- 11 - 15
 	{
 		level: 16,
 		time: 25,
-		goal: 38,
+		goal: 35,
 	},
 	{
 		level: 17,
 		time: 25,
-		goal: 40,
+		goal: 36,
 	},
 	{
 		level: 18,
 		time: 25,
-		goal: 41,
+		goal: 37,
 	},
 	{
 		level: 19,
 		time: 25,
-		goal: 42,
+		goal: 38,
 	},
 	{
 		level: 20,
 		time: 25,
-		goal: 43,
+		goal: 39,
 	},
 	// ---- 15 - 20
 	{
 		level: 21,
 		time: 30,
-		goal: 45,
+		goal: 40,
 	},
 	{
 		level: 22,
 		time: 30,
-		goal: 47,
+		goal: 41,
 	},
 	{
 		level: 23,
 		time: 30,
-		goal: 48,
+		goal: 42,
 	},
 	{
 		level: 24,
 		time: 30,
-		goal: 49,
+		goal: 43,
 	},
 	{
 		level: 25,
 		time: 30,
-		goal: 50,
+		goal: 44,
 	},
 	// ---- 21 - 35
 	{
 		level: 26,
 		time: 35,
-		goal: 52,
+		goal: 45,
 	},
 	{
 		level: 27,
 		time: 35,
-		goal: 53,
+		goal: 46,
 	},
 	{
 		level: 28,
 		time: 35,
-		goal: 55,
+		goal: 47,
 	},
 	{
 		level: 29,
 		time: 35,
-		goal: 56,
+		goal: 48,
 	},
 	{
 		level: 30,
 		time: 35,
-		goal: 57,
+		goal: 50,
 	},
 	// ---- 26 - 30
 	{
 		level: 31,
 		time: 35,
-		goal: 52,
+		goal: 51,
 	},
 	{
 		level: 32,
 		time: 35,
-		goal: 53,
+		goal: 52,
 	},
 	{
 		level: 33,
 		time: 35,
-		goal: 55,
+		goal: 53,
 	},
 	{
 		level: 34,
 		time: 35,
-		goal: 56,
+		goal: 54,
 	},
 	{
 		level: 35,
 		time: 35,
-		goal: 57,
+		goal: 55,
 	},
 	// ---- 31 - 35
 	{
 		level: 36,
 		time: 40,
-		goal: 60,
+		goal: 59,
 	},
 	{
 		level: 37,
 		time: 40,
-		goal: 62,
+		goal: 60,
 	},
 	{
 		level: 38,
 		time: 40,
-		goal: 63,
+		goal: 61,
 	},
 	{
 		level: 39,
 		time: 40,
-		goal: 64,
+		goal: 62,
 	},
 	{
 		level: 40,
 		time: 40,
-		goal: 65,
+		goal: 63,
 	},
 	// ---- 36 - 40
 	{
 		level: 41,
 		time: 45,
-		goal: 67,
+		goal: 66,
 	},
 	{
 		level: 42,
 		time: 45,
-		goal: 69,
+		goal: 67,
 	},
 	{
 		level: 43,
 		time: 45,
-		goal: 70,
+		goal: 68,
 	},
 	{
 		level: 44,
 		time: 45,
-		goal: 71,
+		goal: 69,
 	},
 	{
 		level: 45,
 		time: 45,
-		goal: 72,
+		goal: 70,
 	},
 	// ---- 41 - 45
 	{
 		level: 46,
 		time: 50,
-		goal: 75,
+		goal: 73,
 	},
 	{
 		level: 47,
 		time: 50,
-		goal: 77,
+		goal: 74,
 	},
 	{
 		level: 48,
 		time: 50,
-		goal: 78,
+		goal: 75,
 	},
 	{
 		level: 49,
 		time: 50,
-		goal: 79,
+		goal: 76,
 	},
 	{
 		level: 50,
 		time: 50,
-		goal: 80,
+		goal: 78,
 	},
 	// --- 46 - 59
 	// ---

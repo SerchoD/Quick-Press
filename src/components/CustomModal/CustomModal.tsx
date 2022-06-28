@@ -11,25 +11,23 @@ interface Props {
     children: any;
     showModal: boolean;
     setShowModal?: void | boolean;
+    height?: number;
 }
 
-const CustomModal = ({ children, showModal, }: Props) => {
+const CustomModal = ({ children, showModal, height = windowHeight * 0.65 }: Props) => {
 
     return (
-        <>
-            <StatusBar hidden />
-            <Modal
-                visible={showModal}
-                transparent={true}
-                animationType='slide'
-            >
-                <View style={styles.modalContainer}>
-                    <View style={styles.modal}>
-                        {children}
-                    </View>
+        <Modal
+            visible={showModal}
+            transparent={true}
+            animationType='slide'
+        >
+            <View style={styles.modalContainer}>
+                <View style={{ ...styles.modal, height: height }}>
+                    {children}
                 </View>
-            </Modal>
-        </>
+            </View>
+        </Modal>
     )
 }
 const windowWidth = Dimensions.get('window').width;
@@ -46,11 +44,11 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: 'rgba(22,22,22,.9)',
+        backgroundColor: 'rgba(22,22,22,.7)',
         elevation: 3,
         width: windowWidth * 0.8,
-        height: windowHeight * 0.65,
-        borderRadius: 10
+        // height:  windowHeight * 0.65,
+        borderRadius: 15
 
     }
 });
