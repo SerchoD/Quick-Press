@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: 'rgba(22,22,22,.7)',
+        backgroundColor: 'rgba(22,22,22,.8)',
         elevation: 3,
         width: windowWidth * 0.8,
         // height:  windowHeight * 0.65,

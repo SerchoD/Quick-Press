@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Dimensions, Text, TouchableOpacity, View, StyleSheet } from 'react-native'
 import { useSelector } from 'react-redux';
+import { globalStyles } from '../../globalStyles';
 import { RootStore } from '../../redux';
 import { randomMinMax } from '../../utils/math'
 
@@ -73,10 +74,16 @@ const styles = (themeStyles: any) => StyleSheet.create({
         borderWidth: 3,
         borderColor: themeStyles.roundBtnBorderColor,
         borderRadius: 100,
-        elevation: 5
+        elevation: 10,
     },
     btnText: {
-        color: themeStyles.textColor
+        textAlign: 'center',
+        color: themeStyles.textColor,
+        ...globalStyles.numbersTextShadow,
+        // backgroundColor: 'red',
+        marginTop: 8,
+        height: 30,
+        width: 50
     }
 
 });

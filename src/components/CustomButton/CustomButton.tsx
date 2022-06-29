@@ -27,7 +27,7 @@ const CustomButton = ({ securityDisable, handleCloseModal, onPress, text, reload
         <TouchableOpacity onPress={handleCloseModal || onPress} disabled={securityDisable}>
             <View style={{
                 ...s.modalAgainBtn,
-                // opacity: `${securityDisable ? .5 : 1}`
+                opacity: securityDisable ? .5 : 1
             }}>
                 <Text style={s.modalAgainText}>
                     {text}

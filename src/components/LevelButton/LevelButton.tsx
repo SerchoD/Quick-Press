@@ -37,7 +37,7 @@ const LevelButton = ({ number, onPress, key, disabled = false }: Props) => {
     });
 
     return (
-        <View key={key} style={{ opacity: disabled ? .5 : 1 }}>
+        <View key={key} style={{ opacity: disabled ? .25 : 1 }}>
             <TouchableOpacity
                 style={{
                     ...s.btn,
@@ -62,10 +62,14 @@ const styles = (themeStyles: any) => StyleSheet.create({
         borderWidth: 3,
         borderColor: themeStyles.roundBtnBorderColor,
         borderRadius: 100,
-        elevation: 20
+        elevation: 10
     },
     btnText: {
+        textAlign: 'center',
         color: themeStyles.textColor,
+        marginTop: '35%',
+        width: '75%',
+        height: '75%',
         ...globalStyles.numbersTextShadow
     }
 

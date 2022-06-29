@@ -216,8 +216,12 @@ const styles = (themeStyles: any) => StyleSheet.create({
         color: themeStyles.textColor,
         fontSize: 20,
         marginTop: 5,
-        marginBottom: -27,
-        ...globalStyles.textShadow
+        marginBottom: -40,
+        textAlign: 'center',
+        width: 100,
+        height: 40,
+
+        ...globalStyles.numbersTextShadow
     },
     clock: {
         textAlign: 'center',
@@ -233,13 +237,17 @@ const styles = (themeStyles: any) => StyleSheet.create({
         color: themeStyles.textColor,
         fontSize: 20,
         marginTop: -20,
-        ...globalStyles.textShadow
+        width: 100,
+        height: 40,
+        textAlign: 'center',
+        ...globalStyles.numbersTextShadow
     },
     modalScoreText: {
         color: themeStyles.textColor,
         fontSize: 30,
         fontWeight: '700',
-        marginTop: 20
+        marginTop: 20,
+        ...globalStyles.textShadow
     },
     modalAgainBtn: {
         marginBottom: 40,
@@ -251,7 +259,8 @@ const styles = (themeStyles: any) => StyleSheet.create({
         width: 150,
         height: 40,
         paddingTop: 10,
-        borderRadius: 10
+        borderRadius: 10,
+        ...globalStyles.textShadow
     },
 });
 
