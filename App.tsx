@@ -24,6 +24,7 @@ const App = () => {
   useEffect(() => { // Function for Back Button
     const backAction = () => {
       setIsPlaying(false)
+      if (isPlaying === false) BackHandler.exitApp()
       return true
     };
 

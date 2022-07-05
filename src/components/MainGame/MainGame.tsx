@@ -49,7 +49,7 @@ const MainGame = ({ levelProps }: Props) => {
         if (secondsLeft > 0) {
             setCounter(counter + 1)
         }
-        if (timerIsRunning === false && secondsLeft > 0) {
+        if (timerIsRunning === false && secondsLeft > 0 && showModal === false) {
             timerStart()
         }
     }
