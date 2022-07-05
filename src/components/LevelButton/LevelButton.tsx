@@ -16,11 +16,11 @@ const LevelButton = ({ number, onPress, key, disabled = false }: Props) => {
 
     const s = styles(themeStyles)
 
-    const windowWidth = Dimensions.get('window').width;
-    const windowHeight = Dimensions.get('window').height;
+    const windowWidth2 = Dimensions.get('window').width;
+    const windowHeight2 = Dimensions.get('window').height;
 
-    const [deviceWidth, setDeviceWidth] = useState<number>(windowWidth);
-    const [deviceHeight, setDeviceHeight] = useState<number>(windowHeight);
+    const [deviceWidth, setDeviceWidth] = useState<number>(windowWidth2);
+    const [deviceHeight, setDeviceHeight] = useState<number>(windowHeight2);
 
     const windowDeviceMinorSize = () => {
         if (deviceWidth < deviceHeight) {

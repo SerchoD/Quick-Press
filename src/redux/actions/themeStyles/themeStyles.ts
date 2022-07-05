@@ -15,12 +15,18 @@ export const newRandomThemeAction = () => {
 			${r({ min: 0, max: 150 })},
 			${r({ min: 0, max: 150 })},
 		1)`;
+	const colorRange3 = () =>
+		`rgba(
+			${r({ min: 100, max: 250 })},
+			${r({ min: 100, max: 250 })},
+			${r({ min: 100, max: 250 })},
+		1)`;
 
 	let newRandomStyles: ThemeStyle = {
 		backgroundColor1: colorRange2(),
-		backgroundColor2: colorRange1(),
+		backgroundColor2: colorRange2(),
 		roundBtnBorderColor: colorRange1(),
-		textColor: colorRange1(),
+		textColor: colorRange3(),
 	};
 
 	return {

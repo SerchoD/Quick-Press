@@ -11,7 +11,7 @@ for (let i = 1; i <= 100; i++) {
 	LEVELS.push({
 		level: i,
 		time: time,
-		goal: time + Math.floor(i * 0.75),
+		goal: time + Math.floor(i * 0.8),
 	});
 
 	if (timeCounter === 5) {

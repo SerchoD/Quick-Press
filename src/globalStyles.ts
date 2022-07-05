@@ -5,8 +5,8 @@ export const globalStyles = {
 		textShadowRadius: 10,
 	},
 	numbersTextShadow: {
-		textShadowColor: 'rgba(0, 0, 0, .6)',
-		textShadowOffset: { width: 0, height: 3 },
-		textShadowRadius: 4,
+		textShadowColor: 'rgba(0, 0, 0, .8)',
+		textShadowOffset: { width: 0, height: 0 },
+		textShadowRadius: 10,
 	},
 };

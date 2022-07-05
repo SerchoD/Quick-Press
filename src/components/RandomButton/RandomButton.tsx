@@ -12,10 +12,14 @@ const RandomButton = ({ onPress, counter }: any) => {
 
     const s = styles(themeStyles)
 
-    const [deviceWidth, setDeviceWidth] = useState<number>(windowWidth);
-    const [deviceHeight, setDeviceHeight] = useState<number>(windowHeight);
+    const [deviceWidth, setDeviceWidth] = useState<number>(0);
+    const [deviceHeight, setDeviceHeight] = useState<number>(0);
     const [horizontalPosition, setHorizontalPosition] = useState<number>(0);
     const [verticalPosition, setVerticalPosition] = useState<number>(0);
+    const [btnSize, setBtnSize] = useState<number>(0)
+
+    // console.log('horizontalPosition; ', horizontalPosition)
+    // console.log('verticalPosition; ', verticalPosition)
 
     const windowDeviceMinorSize = () => {
         if (deviceWidth < deviceHeight) {
@@ -24,17 +28,29 @@ const RandomButton = ({ onPress, counter }: any) => {
             return deviceHeight
         }
     }
-    const btnSize = (windowDeviceMinorSize() * 15) / 100; // (15%) X percent of window Screen.
+    // const btnSize = (windowDeviceMinorSize() * 15) / 100; // (15%) X percent of window Screen.
 
     useEffect(() => {
-        setHorizontalPosition(randomMinMax({ min: 0, max: (deviceWidth - btnSize) }));
-        setVerticalPosition(randomMinMax({ min: 0, max: (deviceHeight - btnSize) }));
+        setBtnSize((windowDeviceMinorSize() * 15) / 100);  // (15%) X percent of window Screen.
+    }, [deviceWidth])
+
+    useEffect(() => {
+        setDeviceWidth(windowWidth)
+        setDeviceHeight(windowHeight)
+    }, [])
+
+    useEffect(() => {
+        let horizontal = randomMinMax({ min: 0, max: (deviceWidth - btnSize) })
+        let vertical = randomMinMax({ min: 0, max: (deviceHeight - btnSize) })
+
+        setHorizontalPosition(horizontal);
+        setVerticalPosition(vertical);
     }, [counter, deviceWidth]);
 
-    Dimensions.addEventListener('change', ({ window: { width, height } }) => {
-        setDeviceWidth(width);
-        setDeviceHeight(height);
-    });
+    // Dimensions.addEventListener('change', ({ window: { width, height } }) => {
+    //     setDeviceWidth(width);
+    //     setDeviceHeight(height);
+    // });
 
     return (
         <View
@@ -48,6 +64,7 @@ const RandomButton = ({ onPress, counter }: any) => {
                     deviceWidth / 2 - (btnSize / 2) // Horizontal Center
                     :
                     horizontalPosition,
+
             }}
         >
             <TouchableOpacity
@@ -80,7 +97,6 @@ const styles = (themeStyles: any) => StyleSheet.create({
         textAlign: 'center',
         color: themeStyles.textColor,
         ...globalStyles.numbersTextShadow,
-        // backgroundColor: 'red',
         marginTop: 8,
         height: 30,
         width: 50
@@ -90,4 +106,5 @@ const styles = (themeStyles: any) => StyleSheet.create({
 
 
 
-export default RandomButton
+// export default React.memo(RandomButton);
+export default RandomButton;
