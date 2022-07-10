@@ -210,7 +210,6 @@ const styles = (themeStyles: any) => StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         height: '100%',
-        // backgroundColor: globalStyles.backgroundColor
     },
     levelText: {
         color: themeStyles.textColor,
@@ -220,7 +219,6 @@ const styles = (themeStyles: any) => StyleSheet.create({
         textAlign: 'center',
         width: 100,
         height: 40,
-
         ...globalStyles.numbersTextShadow
     },
     clock: {

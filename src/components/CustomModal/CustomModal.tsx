@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react'
 import {
     Dimensions,
@@ -47,9 +46,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(22,22,22,.8)',
         elevation: 3,
         width: windowWidth * 0.8,
-        // height:  windowHeight * 0.65,
         borderRadius: 15
-
     }
 });
 

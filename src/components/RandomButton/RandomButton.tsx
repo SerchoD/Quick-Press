@@ -18,9 +18,6 @@ const RandomButton = ({ onPress, counter }: any) => {
     const [verticalPosition, setVerticalPosition] = useState<number>(0);
     const [btnSize, setBtnSize] = useState<number>(0)
 
-    // console.log('horizontalPosition; ', horizontalPosition)
-    // console.log('verticalPosition; ', verticalPosition)
-
     const windowDeviceMinorSize = () => {
         if (deviceWidth < deviceHeight) {
             return deviceWidth
@@ -28,7 +25,6 @@ const RandomButton = ({ onPress, counter }: any) => {
             return deviceHeight
         }
     }
-    // const btnSize = (windowDeviceMinorSize() * 15) / 100; // (15%) X percent of window Screen.
 
     useEffect(() => {
         setBtnSize((windowDeviceMinorSize() * 15) / 100);  // (15%) X percent of window Screen.
@@ -46,11 +42,6 @@ const RandomButton = ({ onPress, counter }: any) => {
         setHorizontalPosition(horizontal);
         setVerticalPosition(vertical);
     }, [counter, deviceWidth]);
-
-    // Dimensions.addEventListener('change', ({ window: { width, height } }) => {
-    //     setDeviceWidth(width);
-    //     setDeviceHeight(height);
-    // });
 
     return (
         <View
@@ -104,7 +95,4 @@ const styles = (themeStyles: any) => StyleSheet.create({
 
 });
 
-
-
-// export default React.memo(RandomButton);
 export default RandomButton;

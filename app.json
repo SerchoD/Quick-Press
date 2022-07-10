@@ -1,10 +1,10 @@
 {
 	"expo": {
-		"name": "quickPressEXPO",
-		"slug": "quickPressEXPO",
+		"name": "Quick Press",
+		"slug": "Quick-Press",
 		"version": "1.0.0",
 		"orientation": "portrait",
-		"icon": "./assets/icon.png",
+		"icon": "./src/assets/icon/icon.png",
 		"userInterfaceStyle": "light",
 		"splash": {
 			"image": "./src/assets/splash/splash.png",
@@ -19,14 +19,16 @@
 			"supportsTablet": true
 		},
 		"android": {
+			"package": "com.diaz.sergio.quickPressEXPO",
+			"versionCode": 1,
 			"adaptiveIcon": {
-				"foregroundImage": "./assets/adaptive-icon.png",
-				"backgroundColor": "#FFFFFF"
-			},
-			"package": "com.diaz.sergio.quickPressEXPO"
+				"foregroundImage": "./src/assets/icon/adaptive-icon.png",
+				"backgroundColor": "#373737"
+			}
 		},
 		"web": {
-			"favicon": "./assets/favicon.png"
-		}
+			"favicon": "./src/assets/icon/icon.png"
+		},
+		"primaryColor": "#1e1e1e"
 	}
 }
